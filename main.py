@@ -1,9 +1,9 @@
 
 import requests, json, time, sys, os
 
-result_limit = 100
+result_limit = 50
 sleep_time = 90 #interval in seconds to sleep after each recent pastes batch
-minimum_length = 50 #ignore pastes shorter than this
+minimum_length = 10 #ignore pastes shorter than this
 save_path = os.getcwd() + '/pastes/' #where keyword matching pastes get saved
 
 keywords = [line.rstrip('\n') for line in open(os.getcwd() + '/keywords.txt', 'r').readlines()]
@@ -13,7 +13,7 @@ def http_get(url, params={}, tries=0):
 	if tries > 10:
 		sys.exit('Exceeded 10 fetch retries. Are you banned?')
 
-	res = requests.get(url, params, timeout=3.3)
+	res = requests.get(url, params, timeout=(4, 5))
 
 	if res.status_code == requests.codes.ok:
 		return res
@@ -47,9 +47,12 @@ if __name__ == "__main__":
 			if os.path.isfile(filename) or int(paste['size']) < minimum_length:
 				continue
 
-			save_paste(filename, http_get(paste['scrape_url']).text)
+			paste_data = http_get(paste['scrape_url']).text
 
-			hits += 1
+			if any(kword in paste_data for kword in keywords):
+				save_paste(filename, paste_data)
+				hits += 1
+			
 			time.sleep(1)
 
 		print("\nHits: {0}".format(hits))
