@@ -1,0 +1,5 @@
+bash
+php
+password
+root
+mysql
