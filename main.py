@@ -1,7 +1,7 @@
 
 import requests, json, time, sys, os
 
-result_limit = 5
+result_limit = 100
 sleep_time = 90 #interval in seconds to sleep after each recent pastes batch
 minimum_length = 50 #ignore pastes shorter than this
 save_path = os.getcwd() + '/pastes/' #where keyword matching pastes get saved
