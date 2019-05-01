@@ -36,7 +36,7 @@ def save_paste(path, data, separator=None):
 if __name__ == "__main__":
 	while True:
 		hits = 0
-		recent_items = http_get('http://pastebin.com/api_scraping.php', params={'limit':result_limit}).json()
+		recent_items = http_get('https://scrape.pastebin.com/api_scraping.php', params={'limit':result_limit}).json()
 
 		for i, paste in enumerate(recent_items):
 
